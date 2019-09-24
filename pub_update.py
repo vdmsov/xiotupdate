@@ -3,4 +3,4 @@
 import paho.mqtt.publish as publish
 import sys
 
-publish.single("update", sys.argv[1], hostname="localhost")
+publish.single(sys.argv[1], sys.argv[2], hostname="localhost")

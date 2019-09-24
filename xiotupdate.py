@@ -13,6 +13,7 @@ def version(direct=''):
 	process = sp.Popen(["""dpkg --list xiot | grep xiot | awk '{print $3}'"""], \
 		stdout=sp.PIPE, shell = True)
 	stdout = process.communicate()[0].replace('\n', '')
+	process.wait()
 
 	if direct == 'mqtt':
 		mqttp.single('/xsys/version', stdout, hostname='localhost')
@@ -25,6 +26,7 @@ def check_install():
 	process = sp.Popen(["""dpkg --list xiot | grep xiot | awk '{print $1}'"""], \
 		stdout=sp.PIPE, shell = True)
 	stdout = process.communicate()[0]
+	process.wait()
 
 	if stdout[:2] == 'ii': return True
 	else: return False
@@ -35,6 +37,7 @@ def delete():
 	process = sp.Popen(["""dpkg -r xiot"""], \
 		stdout=sp.PIPE, shell = True)
 	stdout = process.communicate()[0]
+	process.wait()
 
 	mqttp.single('/xsys/install', 'XIoT Automation packet is deleted!', hostname='localhost')
 
@@ -52,6 +55,7 @@ def download(url):
 	process = sp.Popen(["""wget """ + str(url)], \
 		stdout=sp.PIPE, shell = True)
 	stdout = process.communicate()[0]
+	process.wait()
 
 	mqttp.single('/xsys/install', 'XIoT Automation packet new version is downloaded!', hostname='localhost')
 
@@ -69,6 +73,7 @@ def install(url):
 	process = sp.Popen(["""dpkg -i xiot.deb"""], \
 		stdout=sp.PIPE, shell = True)
 	stdout = process.communicate()[0]
+	process.wait()
 
 	mqttp.single('/xsys/install', 'XIoT Automation packet is installed! Version: ' + version(), hostname='localhost')
 
